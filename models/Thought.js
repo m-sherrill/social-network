@@ -15,7 +15,12 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,
     },
-    reactions: [reactionSchema],
+    reactions: [
+      {
+          type: Schema.Types.ObjectId,
+          ref: 'Reaction'
+      }
+  ],
   },
   {
     toJSON: {
@@ -27,6 +32,6 @@ const thoughtSchema = new Schema(
 
 
 
-const Course = model('course', courseSchema);
+const Course = model('thoughts', thoughtSchema);
 
 module.exports = Course;

@@ -1,6 +1,7 @@
-const { Schema, model } = require('mongoose')
-const require('mongoose-type-email')
-const thoughtSchema = require('./Thought')
+const { Schema, model, SchemaTypes } = require('mongoose')
+const Email = require('mongoose-type-email')
+const { thoughtSchema } = require('./Thought')
+
 
 // Schema to create Student model
 const userSchema = new Schema(
@@ -14,16 +15,21 @@ const userSchema = new Schema(
     },
     // email -- using Mongoose Type Email NPM for validation
     email: {
-      type: mongoose.SchemaTypes.Email,
+      type: SchemaTypes.Email,
       required: true,
       max_length: 50,
       trim: true,
     },
     // array of thoughts by this user referencing the thoughts schema
-    thoughts: [thoughtSchema],
-    // array of friends or this user 
+    thoughts: [
+      {
+          type: Schema.Types.ObjectId,
+          ref: 'Thought'
+      }
+  ],
+    // array of friends for this user 
     friends: [{
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'User'
     }]
   },
