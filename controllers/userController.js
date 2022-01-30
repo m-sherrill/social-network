@@ -1,21 +1,21 @@
 const { Thought, User} = require('../models');
 
 module.exports = {
-    //find all users 
+    //find all users ... path /api/users
     async findAllUsers(req, res) {
         const allUsers = await User.find()
         res.json(allUsers)
-    },
+  },
 
-    //add a new user
+    //add a new user ... path /api/users
     async addUser(req, res) {
         const addUser = await User.create(req.body)
         res.json(addUser)
     },
 
-    // find one user by ID
+    // find one user by ID *** Need to change into an async function *** ... path /api/users/userId ... populated the thoughts and friends so that the whole object shows when searching on ID
     async findUser(req, res) {
-      User.findOne({ _id: req.params.userId })
+      User.findOne({ _id: req.params.userId }).populate('thoughts').populate('friends')
         .then(async (user) =>
           !user
             ? res.status(404).json({ message: 'No user with that ID' })
@@ -29,17 +29,15 @@ module.exports = {
         });
     },
 
-    //delete user
+    //delete user ... path /api/users/userId
     async deleteUser(req, res) {
         try {
             const findUser = await User.findOne({ _id: req.params.userId })
-            console.log(findUser)
             const deleteUser = await User.findOneAndRemove({ _id: req.params.userId })
             const deleteThoughts = await Thought.deleteMany({ username: findUser.username })
             !deleteUser && !deleteThoughts
               ? res.status(404).json({ message: 'No such user exists' })
               : res.json("User and Associated Thoughts Deleted")
-            
         }
           catch(err)  {
             console.log(err);
@@ -56,7 +54,6 @@ module.exports = {
             { $addToSet: { friends:  req.params.friendId }},
             { new: true, runValidators: true }
             )
-            console.log(addFriend)
             !addFriend
             ? res.status(404).json({ message: 'No such user exists' })
             : res.json("Friend Added")
@@ -66,6 +63,7 @@ module.exports = {
           }
       },
 
+      //Delete a friend .. path of /api/users/userId/friends/friendId
       async deleteFriend(req, res) {
         try {
           const deleteFriend = await User.findOneAndUpdate(
@@ -73,7 +71,6 @@ module.exports = {
             { $pull: { friends:  req.params.friendId }},
             { new: true, runValidators: true }
             )
-            console.log(deleteFriend)
             !deleteFriend
             ? res.status(404).json({ message: 'No such user exists' })
             : res.json("Friend Deleted")

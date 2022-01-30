@@ -17,7 +17,6 @@ module.exports = {
   async findOneThought(req, res) {
     try{
     const oneThought = await Thought.findOne({ _id: req.params.thoughtId })
-    console.log(oneThought)
         !oneThought
           ? res.status(404).json({ message: "No thought with that ID" })
           : res.json(oneThought)
@@ -36,13 +35,11 @@ module.exports = {
       thoughtText: req.body.thoughtText,
          username: username,
     })
-    console.log(newThought)
     const updateUser = await  User.findOneAndUpdate(
           { _id: req.params.userId },
           { $push: { thoughts: newThought._id }},
           { new: true }
         )
-    console.log(updateUser)
         !updateUser
         ? res.status(404).json({ message: 'No such user exists' })
         : res.json("Thought Added")
@@ -51,25 +48,6 @@ module.exports = {
       res.status(500).json(error);
     }
 },
-
-// creating a new thought /api/thoughts/thoughtId/reactions
-async createReaction(req, res) {
-  try {
-    const addReaction = await Thought.findOneAndUpdate(
-      { _id: req.params.thoughtId },
-      { $addToSet: { reactions:  req.body }},
-      { new: true, runValidators: true }
-      )
-      console.log(addReaction)
-      !addReaction
-      ? res.status(404).json({ message: 'No such thought exists' })
-      : res.json("Reaction Added")
-    } catch(error)  {
-      console.log(error);
-      res.status(500).json(error);
-    }
-},
-
 
 // delete thought by ID ... path /api/thoughts/:thoughtID
 async deleteThought(req, res) {
@@ -83,5 +61,39 @@ async deleteThought(req, res) {
       console.log(err);
       res.status(500).json(err);
     };
+},
+
+// creating a new thought /api/thoughts/thoughtId/reactions
+async createReaction(req, res) {
+  try {
+    const addReaction = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions:  req.body }},
+      { new: true, runValidators: true }
+      )
+      !addReaction
+      ? res.status(404).json({ message: 'No such thought exists' })
+      : res.json("Reaction Added")
+    } catch(error)  {
+      console.log(error);
+      res.status(500).json(error);
+    }
+},
+
+// Deleting a new thought /api/thoughts/thoughtId/reactions
+async deleteReaction(req, res) {
+  try {
+    const deleteReaction = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions:  req.params.reactionId }},
+      { new: true, runValidators: true }
+      )
+      !deleteReaction
+      ? res.status(404).json({ message: 'No such thought exists' })
+      : res.json("Reaction Deleted")
+    } catch(error)  {
+      console.log(error);
+      res.status(500).json(error);
+    }
 },
 }
