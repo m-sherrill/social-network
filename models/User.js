@@ -1,6 +1,6 @@
 const { Schema, model, SchemaTypes } = require('mongoose')
 const Email = require('mongoose-type-email')
-const { thoughtSchema } = require('./Thought')
+const { Thought } = require('./Thought')
 
 
 // Schema to create Student model

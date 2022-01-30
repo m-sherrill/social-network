@@ -1,4 +1,4 @@
-const { User, Thought } = require('../models');
+const { Thought, User} = require('../models');
 
 module.exports = {
     //find all users 
@@ -10,6 +10,21 @@ module.exports = {
     async addUser(req, res) {
         const addUser = await User.create(req.body)
         res.json(addUser)
+    },
+
+    async findUser(req, res) {
+      User.findOne({ _id: req.params.userId })
+        .then(async (user) =>
+          !user
+            ? res.status(404).json({ message: 'No user with that ID' })
+            : res.json({
+                user
+              })
+        )
+        .catch((err) => {
+          console.log(err);
+          return res.status(500).json(err);
+        });
     },
 
     async deleteUser(req, res) {
