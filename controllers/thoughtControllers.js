@@ -49,6 +49,10 @@ module.exports = {
     }
 },
 
+// update a thought using put -- req.body would look for thoughtText -- path /api/thoughts/:thoughtID/:userID
+
+
+
 // delete thought by ID ... path /api/thoughts/:thoughtID
 async deleteThought(req, res) {
   try {
@@ -63,7 +67,7 @@ async deleteThought(req, res) {
     };
 },
 
-// creating a new thought /api/thoughts/thoughtId/reactions
+// creating a new thought /api/thoughts/thoughtId/reactions -- req.body needs reactionText and username
 async createReaction(req, res) {
   try {
     const addReaction = await Thought.findOneAndUpdate(
@@ -80,7 +84,7 @@ async createReaction(req, res) {
     }
 },
 
-// Deleting a new thought /api/thoughts/thoughtId/reactions
+// Deleting a new thought /api/thoughts/thoughtId/reactions -- 
 async deleteReaction(req, res) {
   try {
     const deleteReaction = await Thought.findOneAndUpdate(

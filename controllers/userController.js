@@ -27,6 +27,13 @@ module.exports = {
         };
     },
 
+    // update a user using put
+
+
+    // update a user using patch
+
+    
+
     //delete user ... path /api/users/userId
     async deleteUser(req, res) {
         try {
