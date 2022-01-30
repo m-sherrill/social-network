@@ -52,7 +52,6 @@ module.exports = {
     }
 },
 
-
 // creating a new thought /api/thoughts/thoughtId/reactions
 async createReaction(req, res) {
   try {
@@ -69,5 +68,20 @@ async createReaction(req, res) {
       console.log(error);
       res.status(500).json(error);
     }
-}
+},
+
+
+// delete thought by ID ... path /api/thoughts/:thoughtID
+async deleteThought(req, res) {
+  try {
+      const deleteThought = await Thought.findOneAndRemove({ _id: req.params.thoughtId })
+      !deleteThought
+        ? res.status(404).json({ message: 'No thought exists' })
+        : res.json("Thought Deleted")
+  }
+    catch(err)  {
+      console.log(err);
+      res.status(500).json(err);
+    };
+},
 }
