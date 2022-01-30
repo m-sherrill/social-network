@@ -13,20 +13,18 @@ module.exports = {
         res.json(addUser)
     },
 
-    // find one user by ID *** Need to change into an async function *** ... path /api/users/userId ... populated the thoughts and friends so that the whole object shows when searching on ID
+    // find one user by ID ... path /api/users/userId ... populated the thoughts and friends so that the whole object shows when searching on ID
     async findUser(req, res) {
-      User.findOne({ _id: req.params.userId }).populate('thoughts').populate('friends')
-        .then(async (user) =>
-          !user
+      try{
+      const findOneUser = await User.findOne({ _id: req.params.userId }).populate('thoughts').populate('friends')
+          !findOneUser
             ? res.status(404).json({ message: 'No user with that ID' })
             : res.json({
-                user
-              })
-        )
-        .catch((err) => {
+                findOneUser})
+            } catch(error) {
           console.log(err);
           return res.status(500).json(err);
-        });
+        };
     },
 
     //delete user ... path /api/users/userId
