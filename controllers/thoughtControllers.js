@@ -50,5 +50,24 @@ module.exports = {
       console.log(error);
       res.status(500).json(error);
     }
+},
+
+
+// creating a new thought /api/thoughts/thoughtId/reactions
+async createReaction(req, res) {
+  try {
+    const addReaction = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions:  req.body }},
+      { new: true, runValidators: true }
+      )
+      console.log(addReaction)
+      !addReaction
+      ? res.status(404).json({ message: 'No such thought exists' })
+      : res.json("Reaction Added")
+    } catch(error)  {
+      console.log(error);
+      res.status(500).json(error);
+    }
 }
 }
