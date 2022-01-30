@@ -13,6 +13,20 @@ module.exports = {
     }
   },
 
+  // find a thought by a single id .. path of /api/thoughts/thoughtID
+  async findOneThought(req, res) {
+    try{
+    const oneThought = await Thought.findOne({ _id: req.params.thoughtId })
+    console.log(oneThought)
+        !oneThought
+          ? res.status(404).json({ message: "No thought with that ID" })
+          : res.json(oneThought)
+    } catch(error) {
+      console.log(error)
+      res.status(500).json(error)
+    } 
+  },
+
   // creating a new thought /api/thoughts/userID
   async createThought(req, res) {
   try {
