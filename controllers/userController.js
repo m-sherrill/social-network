@@ -27,12 +27,22 @@ module.exports = {
         };
     },
 
-    // update a user using put
+    // update a user using put.. path /api/users/userId -- req.body will expect username and email
+    async updateUser(req, res) {
+      try {
+          const update = await User.findOneAndUpdate(
+              { _id: req.params.userId },
+              { $set: req.body },
+              { runValidators: true, new: true }
+          );
+          !update
+            ? res.status(404).json({ message: 'No such user exists' })
+            : res.json("Thought Added")
+      } catch (err) {
+          res.status(500).json({ message: err });
+      }
+    },
 
-
-    // update a user using patch
-
-    
 
     //delete user ... path /api/users/userId
     async deleteUser(req, res) {
