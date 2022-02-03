@@ -50,7 +50,19 @@ module.exports = {
 },
 
 // update a thought using put -- req.body would look for thoughtText -- path /api/thoughts/:thoughtID/:userID
-
+async updateThought(req, res) {
+  try {
+      const thought = await Thought.findOneAndUpdate(
+          { _id: req.params.thoughtId },
+          { $set: req.body },
+          { runValidators: true, new: true }
+      );
+      if (thought) res.json(thought);
+      else res.status(404).json({ message: 'No such thought exists' });
+  } catch (err) {
+      res.status(500).json({ message: err });
+  }
+};
 
 
 // delete thought by ID ... path /api/thoughts/:thoughtID
@@ -58,7 +70,7 @@ async deleteThought(req, res) {
   try {
       const deleteThought = await Thought.findOneAndRemove({ _id: req.params.thoughtId })
       !deleteThought
-        ? res.status(404).json({ message: 'No thought exists' })
+        ? res.status(404).json({ message: 'No such thought exists' })
         : res.json("Thought Deleted")
   }
     catch(err)  {
