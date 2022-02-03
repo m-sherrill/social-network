@@ -57,12 +57,13 @@ async updateThought(req, res) {
           { $set: req.body },
           { runValidators: true, new: true }
       );
-      if (thought) res.json(thought);
-      else res.status(404).json({ message: 'No such thought exists' });
+      !thought
+        ? res.status(404).json({ message: 'No such user exists' })
+        : res.json("Thought Added")
   } catch (err) {
       res.status(500).json({ message: err });
   }
-};
+},
 
 
 // delete thought by ID ... path /api/thoughts/:thoughtID
