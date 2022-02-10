@@ -49,7 +49,7 @@ module.exports = {
     }
 },
 
-// update a thought using put -- req.body would look for thoughtText -- path /api/thoughts/:thoughtID/:userID
+// update a thought using put -- req.body would look for thoughtText -- path /api/thoughts/:thoughtID
 async updateThought(req, res) {
   try {
       const thought = await Thought.findOneAndUpdate(
@@ -59,7 +59,7 @@ async updateThought(req, res) {
       );
       !thought
         ? res.status(404).json({ message: 'No such user exists' })
-        : res.json("Thought Added")
+        : res.json("Thought Updated")
   } catch (err) {
       res.status(500).json({ message: err });
   }
@@ -97,7 +97,7 @@ async createReaction(req, res) {
     }
 },
 
-// Deleting a new thought /api/thoughts/thoughtId/reactions -- 
+// Deleting a new thought /api/thoughts/thoughtId/reactions/reactionID -- 
 async deleteReaction(req, res) {
   try {
     const deleteReaction = await Thought.findOneAndUpdate(

@@ -37,7 +37,7 @@ module.exports = {
           );
           !update
             ? res.status(404).json({ message: 'No such user exists' })
-            : res.json("Thought Added")
+            : res.json("User Updated")
       } catch (err) {
           res.status(500).json({ message: err });
       }
