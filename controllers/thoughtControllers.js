@@ -1,3 +1,4 @@
+const req = require('express/lib/request');
 const { User, Thought } = require('../models');
 
 module.exports = {
@@ -42,7 +43,7 @@ module.exports = {
         )
         !updateUser
         ? res.status(404).json({ message: 'No such user exists' })
-        : res.json("Thought Added")
+        : res.json("Thought Added", newThought)
     } catch(error)  {
       console.log(error);
       res.status(500).json(error);

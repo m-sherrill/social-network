@@ -9,7 +9,6 @@ This project will have the code available for the backend of a social media site
 - This application requires node.js. Make sure this is installed on your computer first.
 - Clone this repository to your computer. 
 - Open the server.js file in your terminal and run ```npm install```. This will install all the dependancies to run this application.
-- Update the .env.EXAMPLE file, change variables in it to show your information and remove the ".EXAMPLE" ending on the file name when ready to use. 
 - This can be tested locally. Please just open MongoDB compass and start a connection. 
 
 ## Usage
