@@ -30,11 +30,11 @@ module.exports = {
   // creating a new thought /api/thoughts/userID
   async createThought(req, res) {
   try {
-    const findUser = await User.findById({ _id: req.params.userId })
-    let username = findUser.username
+    const findUser = await User.findOne({ _id: req.params.userId })
+    let userName = findUser.username
     const newThought = await Thought.create({
       thoughtText: req.body.thoughtText,
-         username: username,
+         username: userName,
     })
     const updateUser = await  User.findOneAndUpdate(
           { _id: req.params.userId },
@@ -43,7 +43,7 @@ module.exports = {
         )
         !updateUser
         ? res.status(404).json({ message: 'No such user exists' })
-        : res.json("Thought Added", newThought)
+        : res.json("Thought Added")
     } catch(error)  {
       console.log(error);
       res.status(500).json(error);

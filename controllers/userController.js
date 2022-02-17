@@ -63,7 +63,6 @@ module.exports = {
       //add a new friend .. path of /api/users/userId/friends/friendId
       async createFriend(req, res) {
         try {
-          console.log("IN THE CREATE FRIEND TRY!!!!")
           const addFriend = await User.findOneAndUpdate(
             { _id: req.params.userId },
             { $addToSet: { friends:  req.params.friendId }},
